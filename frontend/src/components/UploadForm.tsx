@@ -56,11 +56,15 @@ export function UploadForm({ onUploadSuccess }: UploadFormProps) {
         insuranceCompany: extractedData.insuranceCompany,
         vehicle: extractedData.vehicle,
         totals: {
-          // Map new structure to old structure for compatibility
+          // Complete breakdown including individual labor types
           parts: extractedData.totals.parts,
-          labor: extractedData.totals.totalLabor, // Use the summed total labor
+          bodyLabor: extractedData.totals.bodyLabor,
+          paintLabor: extractedData.totals.paintLabor,
+          mechanicalLabor: extractedData.totals.mechanicalLabor,
+          frameLabor: extractedData.totals.frameLabor,
+          totalLabor: extractedData.totals.totalLabor, // Sum of all labor
           paintSupplies: extractedData.totals.paintSupplies,
-          misc: extractedData.totals.miscellaneous,
+          miscellaneous: extractedData.totals.miscellaneous,
           otherCharges: extractedData.totals.otherCharges,
           subtotal: extractedData.totals.subtotal,
           salesTax: extractedData.totals.salesTax,
