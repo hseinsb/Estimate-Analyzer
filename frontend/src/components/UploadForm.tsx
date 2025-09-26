@@ -5,7 +5,6 @@ import { db } from '../lib/firebase';
 import { useAuth } from '../hooks/useAuth';
 import { Upload, FileText, AlertCircle } from 'lucide-react';
 import { parsePDF, calculateEstimateProfit, calculateConfidence, determineStatus } from '../lib/pdfParser';
-import { appendToGoogleSheetsViaAppsScript } from '../lib/googleSheets';
 import toast from 'react-hot-toast';
 
 interface UploadFormProps {
@@ -90,21 +89,7 @@ export function UploadForm({ onUploadSuccess }: UploadFormProps) {
         const estimateId = docRef.id;
         console.log('✅ Successfully saved to Firestore:', estimateId);
 
-        toast.success('PDF parsed successfully!', { id: processingToast });
-
-        // Try to append to Google Sheets
-        try {
-          const sheetsResult = await appendToGoogleSheetsViaAppsScript(extractedData, estimateId);
-          if (sheetsResult.success) {
-            toast.success('Data added to Google Sheets successfully!');
-          } else {
-            console.error('Google Sheets error:', sheetsResult.error);
-            toast.error(`Google Sheets error: ${sheetsResult.error}`);
-          }
-        } catch (sheetsError) {
-          console.error('Google Sheets integration failed:', sheetsError);
-          toast.error('Failed to add data to Google Sheets. Data saved to Firestore successfully.');
-        }
+        toast.success('PDF parsed and saved successfully! Data will sync to Google Sheets automatically.', { id: processingToast });
 
         // Reset form
         setJobNumber('');
@@ -258,11 +243,11 @@ export function UploadForm({ onUploadSuccess }: UploadFormProps) {
           <div className="flex items-start">
             <AlertCircle className="h-5 w-5 text-blue-500 mr-2 mt-0.5" />
             <div className="text-sm text-blue-700">
-              <p className="font-medium mb-1">Frontend Processing (Spark Plan):</p>
+              <p className="font-medium mb-1">Automated Processing:</p>
               <ul className="list-disc list-inside space-y-1">
-                <li>PDF is parsed directly in your browser (no upload to Firebase Storage)</li>
-                <li>Extracted data is saved to Firestore database</li>
-                <li>Data is automatically appended to Google Sheets (if configured)</li>
+                <li>PDF is parsed directly in your browser (no upload required)</li>
+                <li>Extracted data is saved to Firestore database instantly</li>
+                <li>Data automatically syncs to Google Sheets every 5 minutes</li>
                 <li>Processing typically takes 5-10 seconds</li>
                 <li>PDF files are not stored - only the extracted data</li>
               </ul>
