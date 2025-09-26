@@ -58,11 +58,6 @@ export function Dashboard() {
             Overview of your CCC One estimate processing
           </p>
           
-          {/* Temporary Debug Tests */}
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <AuthTest />
-            <FirestoreTest />
-          </div>
         </div>
 
         {/* Stats Grid */}

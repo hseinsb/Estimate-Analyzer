@@ -120,13 +120,13 @@ async function getServiceAccountToken(): Promise<string> {
 /**
  * Create JWT for service account authentication
  */
-async function createServiceAccountJWT(credentials: any): Promise<string> {
+async function createServiceAccountJWT(_credentials: any): Promise<string> {
   // const header = {
   //   alg: 'RS256',
   //   typ: 'JWT'
   // };
 
-  const now = Math.floor(Date.now() / 1000);
+  // const now = Math.floor(Date.now() / 1000);
   // const payload = {
   //   iss: credentials.client_email,
   //   scope: 'https://www.googleapis.com/auth/spreadsheets',
