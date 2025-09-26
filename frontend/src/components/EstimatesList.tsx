@@ -241,7 +241,7 @@ export function EstimatesList() {
                   <Link key={estimate.id} to={`/estimates/${estimate.id}`} className="contents">
                     <tr className="hover:bg-gray-50 cursor-pointer transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {format(estimate.createdAt, 'MMM dd, yyyy')}
+                        {estimate.createdAt ? format(estimate.createdAt, 'MMM dd, yyyy') : 'Unknown'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         {estimate.jobNumber || '-'}

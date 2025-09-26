@@ -163,7 +163,7 @@ export function Dashboard() {
                                 ${(estimate.totals.insurancePay || 0).toLocaleString()}
                               </p>
                               <p className="text-sm text-gray-500">
-                                {format(estimate.createdAt, 'MMM dd')}
+                                {estimate.createdAt ? format(estimate.createdAt, 'MMM dd') : 'Unknown'}
                               </p>
                             </div>
                             <span className="text-primary-600 hover:text-primary-800 text-sm font-medium">

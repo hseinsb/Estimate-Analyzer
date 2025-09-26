@@ -82,8 +82,8 @@ export async function parsePDF(file: File): Promise<ExtractedData> {
         .map(item => item.str)
         .join(' ');
       
-      // Look for "Estimate Totals" keyword
-      if (pageText.toLowerCase().includes('estimate totals')) {
+      // Look for "ESTIMATE TOTAL" keyword (more flexible matching)
+      if (pageText.toLowerCase().includes('estimate total')) {
         totalsPageText = pageText;
         totalsPageNumber = pageNum;
         console.log('📄 Found Estimate Totals on page:', pageNum);

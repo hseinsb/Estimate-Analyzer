@@ -290,7 +290,7 @@ export function EstimateDetail({ estimate }: EstimateDetailProps) {
               Estimate Details
             </h1>
             <p className="text-gray-600">
-              Uploaded on {format(estimate.createdAt, 'MMMM dd, yyyy \'at\' h:mm a')}
+              Uploaded on {estimate.createdAt ? format(estimate.createdAt, 'MMMM dd, yyyy \'at\' h:mm a') : 'Unknown date'}
             </p>
           </div>
           <div className={`flex items-center px-3 py-2 rounded-md border ${getStatusColor(estimate.status)}`}>
@@ -886,13 +886,13 @@ export function EstimateDetail({ estimate }: EstimateDetailProps) {
               <div className="flex justify-between">
                 <span className="text-gray-600">Created:</span>
                 <span className="font-medium">
-                  {format(estimate.createdAt, 'MMM dd, yyyy')}
+                  {estimate.createdAt ? format(estimate.createdAt, 'MMM dd, yyyy') : 'Unknown'}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Last Updated:</span>
                 <span className="font-medium">
-                  {format(estimate.updatedAt, 'MMM dd, yyyy')}
+                  {estimate.updatedAt ? format(estimate.updatedAt, 'MMM dd, yyyy') : 'Unknown'}
                 </span>
               </div>
             </div>

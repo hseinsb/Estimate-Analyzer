@@ -45,8 +45,8 @@ export interface Estimate {
   pdfUrl: string | null; // Always null on Spark plan
   parseConfidence: number;
   status: 'parsed' | 'needs_review' | 'error';
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date | null;
+  updatedAt: Date | null;
   estimateDate?: string;
   preparedBy?: string;
   pageCount?: number;
