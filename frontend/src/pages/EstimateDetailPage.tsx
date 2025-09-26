@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, AlertTriangle } from 'lucide-react';
 import { useEstimate } from '../hooks/useEstimates';
 import { EstimateDetail } from '../components/EstimateDetail';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 
 export function EstimateDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -62,7 +63,9 @@ export function EstimateDetailPage() {
           </Link>
         </div>
 
-        <EstimateDetail estimate={estimate} />
+        <ErrorBoundary>
+          <EstimateDetail estimate={estimate} />
+        </ErrorBoundary>
       </div>
     </div>
   );

@@ -87,25 +87,45 @@ export function useEstimate(id: string) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) {
+      setError('No estimate ID provided');
+      setLoading(false);
+      return;
+    }
 
     const fetchEstimate = async () => {
       try {
+        console.log('Fetching estimate with ID:', id);
         const docRef = doc(db, 'estimates', id);
         const docSnap = await getDoc(docRef);
         
         if (docSnap.exists()) {
           const data = docSnap.data();
+          console.log('Estimate data found:', data);
+          
+          // Safer date conversion
+          let createdAt: Date | null = null;
+          let updatedAt: Date | null = null;
+          
+          try {
+            createdAt = data.createdAt?.toDate ? data.createdAt.toDate() : (data.createdAt ? new Date(data.createdAt) : null);
+            updatedAt = data.updatedAt?.toDate ? data.updatedAt.toDate() : (data.updatedAt ? new Date(data.updatedAt) : null);
+          } catch (dateError) {
+            console.warn('Date conversion error:', dateError);
+          }
+          
           setEstimate({
             id: docSnap.id,
             ...data,
-            createdAt: data.createdAt?.toDate() || new Date(),
-            updatedAt: data.updatedAt?.toDate() || new Date()
+            createdAt,
+            updatedAt
           } as Estimate);
         } else {
+          console.warn('Estimate not found with ID:', id);
           setError('Estimate not found');
         }
       } catch (err) {
+        console.error('Error fetching estimate:', err);
         setError(err instanceof Error ? err.message : 'Failed to fetch estimate');
       } finally {
         setLoading(false);
