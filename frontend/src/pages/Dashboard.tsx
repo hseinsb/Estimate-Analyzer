@@ -106,7 +106,7 @@ export function Dashboard() {
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Total Value</p>
                 <p className="text-2xl font-semibold text-gray-900">
-                  ${stats.totalValue.toLocaleString()}
+                  ${(stats.totalValue || 0).toLocaleString()}
                 </p>
               </div>
             </div>
@@ -160,7 +160,7 @@ export function Dashboard() {
                           <div className="flex items-center space-x-4">
                             <div className="text-right">
                               <p className="text-sm font-medium text-gray-900">
-                                ${estimate.totals.insurancePay.toLocaleString()}
+                                ${(estimate.totals.insurancePay || 0).toLocaleString()}
                               </p>
                               <p className="text-sm text-gray-500">
                                 {format(estimate.createdAt, 'MMM dd')}
@@ -219,12 +219,12 @@ export function Dashboard() {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Total Insurance Pay:</span>
-                  <span className="font-medium">${stats.totalValue.toLocaleString()}</span>
+                  <span className="font-medium">${(stats.totalValue || 0).toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Estimated Profit:</span>
                   <span className={`font-medium ${stats.totalProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    ${stats.totalProfit.toLocaleString()}
+                    ${(stats.totalProfit || 0).toLocaleString()}
                   </span>
                 </div>
                 <div className="flex justify-between">

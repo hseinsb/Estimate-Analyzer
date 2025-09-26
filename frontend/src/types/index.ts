@@ -7,9 +7,18 @@ export interface Vehicle {
 
 export interface Totals {
   parts: number;
-  labor: number;
+  // Individual labor breakdowns (new structure)
+  bodyLabor?: number;
+  paintLabor?: number;
+  mechanicalLabor?: number;
+  frameLabor?: number;
+  totalLabor?: number;
+  // Legacy labor field (for backward compatibility)
+  labor?: number;
   paintSupplies: number;
-  misc: number;
+  // Updated field names
+  miscellaneous?: number;
+  misc?: number; // Legacy
   otherCharges: number;
   subtotal: number;
   salesTax: number;

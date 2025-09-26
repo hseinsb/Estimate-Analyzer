@@ -256,7 +256,7 @@ export function EstimatesList() {
                         {estimate.insuranceCompany}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        ${estimate.totals.insurancePay.toLocaleString()}
+                        ${(estimate.totals.insurancePay || 0).toLocaleString()}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(estimate.status)}`}>
@@ -333,7 +333,7 @@ export function EstimatesList() {
                     Claim: {deleteConfirm.estimate.claimNumber}
                   </p>
                   <p className="text-sm text-gray-500">
-                    Amount: ${deleteConfirm.estimate.totals.insurancePay.toLocaleString()}
+                    Amount: ${(deleteConfirm.estimate.totals.insurancePay || 0).toLocaleString()}
                   </p>
                 </div>
               </div>

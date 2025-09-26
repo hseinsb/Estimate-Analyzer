@@ -311,45 +311,45 @@ export function EstimateDetail({ estimate }: EstimateDetailProps) {
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-gray-600">Parts:</span>
-                <span className="font-medium">${estimate.totals.parts.toLocaleString()}</span>
+                <span className="font-medium">${(estimate.totals.parts || 0).toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Labor:</span>
-                <span className="font-medium">${estimate.totals.labor.toLocaleString()}</span>
+                <span className="font-medium">${(estimate.totals.totalLabor || estimate.totals.labor || 0).toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Paint Supplies:</span>
-                <span className="font-medium">${estimate.totals.paintSupplies.toLocaleString()}</span>
+                <span className="font-medium">${(estimate.totals.paintSupplies || 0).toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Miscellaneous:</span>
-                <span className="font-medium">${estimate.totals.misc.toLocaleString()}</span>
+                <span className="font-medium">${(estimate.totals.miscellaneous || estimate.totals.misc || 0).toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Other Charges:</span>
-                <span className="font-medium">${estimate.totals.otherCharges.toLocaleString()}</span>
+                <span className="font-medium">${(estimate.totals.otherCharges || 0).toLocaleString()}</span>
               </div>
               <div className="flex justify-between border-t border-gray-200 pt-3">
                 <span className="text-gray-600">Subtotal:</span>
-                <span className="font-medium">${estimate.totals.subtotal.toLocaleString()}</span>
+                <span className="font-medium">${(estimate.totals.subtotal || 0).toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Sales Tax:</span>
-                <span className="font-medium">${estimate.totals.salesTax.toLocaleString()}</span>
+                <span className="font-medium">${(estimate.totals.salesTax || 0).toLocaleString()}</span>
               </div>
               <div className="flex justify-between border-t border-gray-200 pt-3 font-semibold">
                 <span className="text-gray-900">Grand Total:</span>
-                <span className="text-gray-900">${estimate.totals.grandTotal.toLocaleString()}</span>
+                <span className="text-gray-900">${(estimate.totals.grandTotal || 0).toLocaleString()}</span>
               </div>
-              {estimate.totals.customerPay > 0 && (
+              {(estimate.totals.customerPay || 0) > 0 && (
                 <div className="flex justify-between">
                   <span className="text-gray-600">Customer Pay (Deductible):</span>
-                  <span className="font-medium text-orange-600">${estimate.totals.customerPay.toLocaleString()}</span>
+                  <span className="font-medium text-orange-600">${(estimate.totals.customerPay || 0).toLocaleString()}</span>
                 </div>
               )}
               <div className="flex justify-between border-t border-gray-200 pt-3 font-semibold text-lg">
                 <span className="text-gray-900">Insurance Pay:</span>
-                <span className="text-gray-900">${estimate.totals.insurancePay.toLocaleString()}</span>
+                <span className="text-gray-900">${(estimate.totals.insurancePay || 0).toLocaleString()}</span>
               </div>
             </div>
           </div>
@@ -363,14 +363,14 @@ export function EstimateDetail({ estimate }: EstimateDetailProps) {
               <div className="flex justify-between">
                 <span className="text-gray-600">Estimate Profit:</span>
                 <span className={`font-medium ${estimate.profits.estimateProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                  ${estimate.profits.estimateProfit.toLocaleString()}
+                  ${(estimate.profits.estimateProfit || 0).toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Actual Parts Cost:</span>
                 <span className="font-medium">
                   {estimate.profits.actualPartsCost !== null 
-                    ? `$${estimate.profits.actualPartsCost.toLocaleString()}`
+                    ? `$${(estimate.profits.actualPartsCost || 0).toLocaleString()}`
                     : 'Not entered'
                   }
                 </span>
@@ -383,7 +383,7 @@ export function EstimateDetail({ estimate }: EstimateDetailProps) {
                     : 'text-gray-400'
                 }`}>
                   {estimate.profits.actualProfit !== null 
-                    ? `$${estimate.profits.actualProfit.toLocaleString()}`
+                    ? `$${(estimate.profits.actualProfit || 0).toLocaleString()}`
                     : 'Not calculated'
                   }
                 </span>
