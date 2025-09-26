@@ -1,0 +1,20 @@
+{
+  "name": "estimate-analyzer",
+  "version": "1.0.0",
+  "description": "CCC One Estimate PDF Analyzer with Firebase and Google Sheets integration",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "deploy": "npx firebase deploy",
+    "deploy:hosting": "npx firebase deploy --only hosting",
+    "deploy:firestore": "npx firebase deploy --only firestore",
+    "install:all": "npm install && cd frontend && npm install"
+  },
+  "keywords": ["pdf", "firebase", "google-sheets", "estimate", "ccc-one"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
