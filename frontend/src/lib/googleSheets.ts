@@ -121,19 +121,19 @@ async function getServiceAccountToken(): Promise<string> {
  * Create JWT for service account authentication
  */
 async function createServiceAccountJWT(credentials: any): Promise<string> {
-  const header = {
-    alg: 'RS256',
-    typ: 'JWT'
-  };
+  // const header = {
+  //   alg: 'RS256',
+  //   typ: 'JWT'
+  // };
 
   const now = Math.floor(Date.now() / 1000);
-  const payload = {
-    iss: credentials.client_email,
-    scope: 'https://www.googleapis.com/auth/spreadsheets',
-    aud: 'https://oauth2.googleapis.com/token',
-    exp: now + 3600, // 1 hour
-    iat: now
-  };
+  // const payload = {
+  //   iss: credentials.client_email,
+  //   scope: 'https://www.googleapis.com/auth/spreadsheets',
+  //   aud: 'https://oauth2.googleapis.com/token',
+  //   exp: now + 3600, // 1 hour
+  //   iat: now
+  // };
 
   // Note: This is a simplified JWT creation for demonstration
   // In a real frontend app, you'd typically use a library like jose or jsonwebtoken

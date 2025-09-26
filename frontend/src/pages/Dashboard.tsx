@@ -1,24 +1,20 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
 import { 
   Upload, 
   FileText, 
-  TrendingUp, 
   AlertTriangle,
   CheckCircle,
-  Clock,
   DollarSign
 } from 'lucide-react';
 import { useEstimates } from '../hooks/useEstimates';
 import { format } from 'date-fns';
-import { AuthTest } from '../components/AuthTest';
-import { FirestoreTest } from '../components/FirestoreTest';
 
 export function Dashboard() {
   const { estimates, loading } = useEstimates();
 
   // Calculate statistics
-  const stats = React.useMemo(() => {
+  const stats = useMemo(() => {
     const total = estimates.length;
     const parsed = estimates.filter(e => e.status === 'parsed').length;
     const needsReview = estimates.filter(e => e.status === 'needs_review').length;
