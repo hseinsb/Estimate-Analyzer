@@ -1,8 +1,8 @@
 import { ExtractedData } from './pdfParser';
 
 // Google Sheets configuration from environment
-const GOOGLE_SHEETS_ID = import.meta.env.VITE_GOOGLE_SHEETS_ID;
-const SERVICE_ACCOUNT_KEY = import.meta.env.VITE_SERVICE_ACCOUNT_KEY;
+const GOOGLE_SHEETS_ID = import.meta.env.VITE_GOOGLE_SHEETS_ID as string;
+const SERVICE_ACCOUNT_KEY = import.meta.env.VITE_SERVICE_ACCOUNT_KEY as string;
 
 interface GoogleSheetsResponse {
   success: boolean;
@@ -25,7 +25,7 @@ export async function appendToGoogleSheets(data: ExtractedData, estimateId: stri
     // Prepare row data
     const values = [
       [
-        data.estimateDate || new Date().toISOString().split('T')[0], // Date
+        new Date().toISOString().split('T')[0], // Date
         data.jobNumber || '', // Job #
         data.customer, // Customer
         data.claimNumber, // Claim #
@@ -35,9 +35,9 @@ export async function appendToGoogleSheets(data: ExtractedData, estimateId: stri
         data.vehicle.model || '', // Model
         data.vehicle.vin || '', // VIN
         data.totals.parts, // Parts (Estimate)
-        data.totals.labor, // Labor (Total)
+        data.totals.totalLabor, // Labor (Total)
         data.totals.paintSupplies, // Paint Supplies
-        data.totals.misc, // Misc
+        data.totals.miscellaneous, // Misc
         data.totals.otherCharges, // Other
         data.totals.subtotal, // Subtotal
         data.totals.salesTax, // Sales Tax
@@ -182,7 +182,7 @@ export async function appendToGoogleSheetsViaBackend(data: ExtractedData, estima
  * This is a workaround for frontend-only integration
  */
 export async function appendToGoogleSheetsViaAppsScript(data: ExtractedData, estimateId: string): Promise<GoogleSheetsResponse> {
-  const APPS_SCRIPT_URL = import.meta.env.VITE_APPS_SCRIPT_URL;
+  const APPS_SCRIPT_URL = import.meta.env.VITE_APPS_SCRIPT_URL as string;
   
   if (!APPS_SCRIPT_URL) {
     return { success: false, error: 'Apps Script URL not configured' };

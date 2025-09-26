@@ -1,10 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from '../hooks/useAuth';
-import { Upload, FileText, AlertCircle, CheckCircle } from 'lucide-react';
-import { parsePDF, calculateEstimateProfit, calculateConfidence, determineStatus, ExtractedData } from '../lib/pdfParser';
+import { Upload, FileText, AlertCircle } from 'lucide-react';
+import { parsePDF, calculateEstimateProfit, calculateConfidence, determineStatus } from '../lib/pdfParser';
 import { appendToGoogleSheetsViaAppsScript } from '../lib/googleSheets';
 import toast from 'react-hot-toast';
 

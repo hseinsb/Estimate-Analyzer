@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { LogOut, Upload, FileText, Home } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
