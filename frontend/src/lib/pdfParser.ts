@@ -420,16 +420,44 @@ function parseTotalsPageInfo(totalsPageText: string, data: ExtractedData): void 
     }
   }
   
-  const miscellaneousMatch = totalsPageText.match(/Miscellaneous\s*\$?([\d,]+\.?\d*)/i);
-  if (miscellaneousMatch) {
-    data.totals.miscellaneous = normalizeCurrency(parseFloat(miscellaneousMatch[1].replace(/,/g, '')));
-    console.log('🔍 Found Miscellaneous:', data.totals.miscellaneous);
+  // Miscellaneous - try multiple patterns to be more accurate
+  let miscellaneousMatch = totalsPageText.match(/Miscellaneous\s*\$\s*([\d,]+\.?\d*)/i);
+  if (!miscellaneousMatch) {
+    // Try pattern without dollar sign
+    miscellaneousMatch = totalsPageText.match(/Miscellaneous\s+([\d,]+\.?\d*)/i);
+  }
+  if (!miscellaneousMatch) {
+    // Try pattern with more flexible spacing and look for the cost at end of line
+    miscellaneousMatch = totalsPageText.match(/Miscellaneous.*?([\d,]+\.?\d*)\s*$/im);
   }
   
-  const otherChargesMatch = totalsPageText.match(/Other\s*Charges\s*\$?([\d,]+\.?\d*)/i);
+  if (miscellaneousMatch) {
+    console.log('🔍 Miscellaneous FULL MATCH:', miscellaneousMatch[0]);
+    console.log('🔍 Miscellaneous EXTRACTED NUMBER:', miscellaneousMatch[1]);
+    data.totals.miscellaneous = normalizeCurrency(parseFloat(miscellaneousMatch[1].replace(/,/g, '')));
+    console.log('🔍 Miscellaneous FINAL VALUE:', data.totals.miscellaneous);
+  } else {
+    console.log('🔍 Miscellaneous not found');
+  }
+  
+  // Other Charges - try multiple patterns to be more accurate
+  let otherChargesMatch = totalsPageText.match(/Other\s*Charges\s*\$\s*([\d,]+\.?\d*)/i);
+  if (!otherChargesMatch) {
+    // Try pattern without dollar sign
+    otherChargesMatch = totalsPageText.match(/Other\s*Charges\s+([\d,]+\.?\d*)/i);
+  }
+  if (!otherChargesMatch) {
+    // Try pattern with more flexible spacing and look for the cost at end of line
+    otherChargesMatch = totalsPageText.match(/Other\s*Charges.*?([\d,]+\.?\d*)\s*$/im);
+  }
+  
   if (otherChargesMatch) {
+    console.log('🔍 Other Charges FULL MATCH:', otherChargesMatch[0]);
+    console.log('🔍 Other Charges EXTRACTED NUMBER:', otherChargesMatch[1]);
     data.totals.otherCharges = normalizeCurrency(parseFloat(otherChargesMatch[1].replace(/,/g, '')));
-    console.log('🔍 Found Other Charges:', data.totals.otherCharges);
+    console.log('🔍 Other Charges FINAL VALUE:', data.totals.otherCharges);
+  } else {
+    console.log('🔍 Other Charges not found');
   }
   
   const subtotalMatch = totalsPageText.match(/Subtotal\s*\$?([\d,]+\.?\d*)/i);
