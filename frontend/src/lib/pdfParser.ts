@@ -420,15 +420,32 @@ function parseTotalsPageInfo(totalsPageText: string, data: ExtractedData): void 
     }
   }
   
-  // Miscellaneous - try multiple patterns to be more accurate
-  let miscellaneousMatch = totalsPageText.match(/Miscellaneous\s*\$\s*([\d,]+\.?\d*)/i);
-  if (!miscellaneousMatch) {
-    // Try pattern without dollar sign
-    miscellaneousMatch = totalsPageText.match(/Miscellaneous\s+([\d,]+\.?\d*)/i);
+  // Miscellaneous - be very specific to avoid picking up wrong numbers
+  let miscellaneousMatch = null;
+  
+  // Try to find the line with "Miscellaneous" and extract the rightmost number (Cost column)
+  const miscellaneousLines = totalsPageText.split('\n').filter(line => 
+    line.toLowerCase().includes('miscellaneous')
+  );
+  
+  if (miscellaneousLines.length > 0) {
+    const miscellaneousLine = miscellaneousLines[0];
+    console.log('🔍 Miscellaneous LINE:', miscellaneousLine);
+    
+    // Look for the rightmost number in the line (should be the Cost column)
+    const numbersInLine = miscellaneousLine.match(/[\d,]+\.?\d*/g);
+    if (numbersInLine && numbersInLine.length > 0) {
+      // Take the last number (rightmost - should be the cost)
+      const costNumber = numbersInLine[numbersInLine.length - 1];
+      miscellaneousMatch = [null, costNumber]; // Fake match array for compatibility
+      console.log('🔍 Miscellaneous ALL NUMBERS:', numbersInLine);
+      console.log('🔍 Miscellaneous SELECTED (rightmost):', costNumber);
+    }
   }
+  
+  // Fallback to original patterns if line-based approach fails
   if (!miscellaneousMatch) {
-    // Try pattern with more flexible spacing and look for the cost at end of line
-    miscellaneousMatch = totalsPageText.match(/Miscellaneous.*?([\d,]+\.?\d*)\s*$/im);
+    miscellaneousMatch = totalsPageText.match(/Miscellaneous\s*\$?\s*([\d,]+\.?\d*)/i);
   }
   
   if (miscellaneousMatch) {
@@ -440,15 +457,32 @@ function parseTotalsPageInfo(totalsPageText: string, data: ExtractedData): void 
     console.log('🔍 Miscellaneous not found');
   }
   
-  // Other Charges - try multiple patterns to be more accurate
-  let otherChargesMatch = totalsPageText.match(/Other\s*Charges\s*\$\s*([\d,]+\.?\d*)/i);
-  if (!otherChargesMatch) {
-    // Try pattern without dollar sign
-    otherChargesMatch = totalsPageText.match(/Other\s*Charges\s+([\d,]+\.?\d*)/i);
+  // Other Charges - be very specific to avoid picking up wrong numbers
+  let otherChargesMatch = null;
+  
+  // Try to find the line with "Other Charges" and extract the rightmost number (Cost column)
+  const otherChargesLines = totalsPageText.split('\n').filter(line => 
+    line.toLowerCase().includes('other') && line.toLowerCase().includes('charges')
+  );
+  
+  if (otherChargesLines.length > 0) {
+    const otherChargesLine = otherChargesLines[0];
+    console.log('🔍 Other Charges LINE:', otherChargesLine);
+    
+    // Look for the rightmost number in the line (should be the Cost column)
+    const numbersInLine = otherChargesLine.match(/[\d,]+\.?\d*/g);
+    if (numbersInLine && numbersInLine.length > 0) {
+      // Take the last number (rightmost - should be the cost)
+      const costNumber = numbersInLine[numbersInLine.length - 1];
+      otherChargesMatch = [null, costNumber]; // Fake match array for compatibility
+      console.log('🔍 Other Charges ALL NUMBERS:', numbersInLine);
+      console.log('🔍 Other Charges SELECTED (rightmost):', costNumber);
+    }
   }
+  
+  // Fallback to original patterns if line-based approach fails
   if (!otherChargesMatch) {
-    // Try pattern with more flexible spacing and look for the cost at end of line
-    otherChargesMatch = totalsPageText.match(/Other\s*Charges.*?([\d,]+\.?\d*)\s*$/im);
+    otherChargesMatch = totalsPageText.match(/Other\s*Charges\s*\$?\s*([\d,]+\.?\d*)/i);
   }
   
   if (otherChargesMatch) {
