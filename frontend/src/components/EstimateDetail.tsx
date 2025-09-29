@@ -126,8 +126,7 @@ export function EstimateDetail({ estimate }: EstimateDetailProps) {
       toast.success('Estimate updated successfully!');
       setIsEditingMode(false);
       
-      // Refresh the page to show updated data
-      window.location.reload();
+      // No need to reload - the form data is already updated locally
     } catch (error) {
       console.error('Error saving estimate:', error);
       toast.error('Failed to save estimate. Please try again.');
