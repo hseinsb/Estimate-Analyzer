@@ -457,41 +457,15 @@ function parseTotalsPageInfo(totalsPageText: string, data: ExtractedData): void 
     console.log('🔍 Miscellaneous not found');
   }
   
-  // Other Charges - be very specific to avoid picking up wrong numbers
-  let otherChargesMatch = null;
+  // Other Charges - Business Rule: Always $4.00 if present, $0 if not present
+  const hasOtherCharges = totalsPageText.toLowerCase().includes('other charges');
   
-  // Try to find the line with "Other Charges" and extract the rightmost number (Cost column)
-  const otherChargesLines = totalsPageText.split('\n').filter(line => 
-    line.toLowerCase().includes('other') && line.toLowerCase().includes('charges')
-  );
-  
-  if (otherChargesLines.length > 0) {
-    const otherChargesLine = otherChargesLines[0];
-    console.log('🔍 Other Charges LINE:', otherChargesLine);
-    
-    // Look for the rightmost number in the line (should be the Cost column)
-    const numbersInLine = otherChargesLine.match(/[\d,]+\.?\d*/g);
-    if (numbersInLine && numbersInLine.length > 0) {
-      // Take the last number (rightmost - should be the cost)
-      const costNumber = numbersInLine[numbersInLine.length - 1];
-      otherChargesMatch = [null, costNumber]; // Fake match array for compatibility
-      console.log('🔍 Other Charges ALL NUMBERS:', numbersInLine);
-      console.log('🔍 Other Charges SELECTED (rightmost):', costNumber);
-    }
-  }
-  
-  // Fallback to original patterns if line-based approach fails
-  if (!otherChargesMatch) {
-    otherChargesMatch = totalsPageText.match(/Other\s*Charges\s*\$?\s*([\d,]+\.?\d*)/i);
-  }
-  
-  if (otherChargesMatch && otherChargesMatch[1]) {
-    console.log('🔍 Other Charges FULL MATCH:', otherChargesMatch[0] || 'Line-based match');
-    console.log('🔍 Other Charges EXTRACTED NUMBER:', otherChargesMatch[1]);
-    data.totals.otherCharges = normalizeCurrency(parseFloat(otherChargesMatch[1].replace(/,/g, '')));
-    console.log('🔍 Other Charges FINAL VALUE:', data.totals.otherCharges);
+  if (hasOtherCharges) {
+    data.totals.otherCharges = 4.00; // Always $4.00 when Other Charges is present
+    console.log('🔍 Other Charges: FOUND - Setting to $4.00 (business rule)');
   } else {
-    console.log('🔍 Other Charges not found');
+    data.totals.otherCharges = 0.00; // $0 when Other Charges is not present
+    console.log('🔍 Other Charges: NOT FOUND - Setting to $0.00 (business rule)');
   }
   
   const subtotalMatch = totalsPageText.match(/Subtotal\s*\$?([\d,]+\.?\d*)/i);
