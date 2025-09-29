@@ -448,8 +448,8 @@ function parseTotalsPageInfo(totalsPageText: string, data: ExtractedData): void 
     miscellaneousMatch = totalsPageText.match(/Miscellaneous\s*\$?\s*([\d,]+\.?\d*)/i);
   }
   
-  if (miscellaneousMatch) {
-    console.log('🔍 Miscellaneous FULL MATCH:', miscellaneousMatch[0]);
+  if (miscellaneousMatch && miscellaneousMatch[1]) {
+    console.log('🔍 Miscellaneous FULL MATCH:', miscellaneousMatch[0] || 'Line-based match');
     console.log('🔍 Miscellaneous EXTRACTED NUMBER:', miscellaneousMatch[1]);
     data.totals.miscellaneous = normalizeCurrency(parseFloat(miscellaneousMatch[1].replace(/,/g, '')));
     console.log('🔍 Miscellaneous FINAL VALUE:', data.totals.miscellaneous);
@@ -485,8 +485,8 @@ function parseTotalsPageInfo(totalsPageText: string, data: ExtractedData): void 
     otherChargesMatch = totalsPageText.match(/Other\s*Charges\s*\$?\s*([\d,]+\.?\d*)/i);
   }
   
-  if (otherChargesMatch) {
-    console.log('🔍 Other Charges FULL MATCH:', otherChargesMatch[0]);
+  if (otherChargesMatch && otherChargesMatch[1]) {
+    console.log('🔍 Other Charges FULL MATCH:', otherChargesMatch[0] || 'Line-based match');
     console.log('🔍 Other Charges EXTRACTED NUMBER:', otherChargesMatch[1]);
     data.totals.otherCharges = normalizeCurrency(parseFloat(otherChargesMatch[1].replace(/,/g, '')));
     console.log('🔍 Other Charges FINAL VALUE:', data.totals.otherCharges);
