@@ -273,9 +273,9 @@ export function EstimateDetail({ estimate }: EstimateDetailProps) {
   };
 
   const openGoogleSheetsRow = () => {
-    // This would need the actual Google Sheets URL and row number
-    // For now, just open the main sheet
-    const sheetsUrl = `https://docs.google.com/spreadsheets/d/${process.env.REACT_APP_GOOGLE_SHEETS_ID}/edit`;
+    // Open the Google Sheets with our estimates data
+    const GOOGLE_SHEETS_ID = '15GZo2vbLxKyp1LZjge4fI_zVpzAuf8ePZxiW5EvSTuw';
+    const sheetsUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEETS_ID}/edit#gid=0`;
     window.open(sheetsUrl, '_blank');
   };
 
