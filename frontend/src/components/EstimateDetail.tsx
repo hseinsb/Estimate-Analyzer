@@ -608,8 +608,8 @@ export function EstimateDetail({ estimate }: EstimateDetailProps) {
                 <>
                   {/* Individual Labor Breakdowns in Edit Mode */}
                   <div className="bg-gray-50 p-3 rounded border">
-                    <h4 className="text-sm font-medium text-gray-700 mb-2">Labor Breakdown</h4>
-                    <div className="grid grid-cols-2 gap-2 text-sm">
+                    <h4 className="text-sm font-medium text-gray-700 mb-3">Labor Breakdown</h4>
+                    <div className="space-y-2 text-sm">
                       <div className="flex justify-between items-center">
                         <span>Body Labor:</span>
                         <div className="flex items-center">
