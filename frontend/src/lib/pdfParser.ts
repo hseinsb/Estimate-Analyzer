@@ -420,41 +420,39 @@ function parseTotalsPageInfo(totalsPageText: string, data: ExtractedData): void 
     }
   }
   
-  // Miscellaneous - be very specific to avoid picking up wrong numbers
-  let miscellaneousMatch = null;
+  // Miscellaneous - simplified logic for single number extraction
+  console.log('🔍 Looking for Miscellaneous...');
   
-  // Try to find the line with "Miscellaneous" and extract the rightmost number (Cost column)
-  const miscellaneousLines = totalsPageText.split('\n').filter(line => 
-    line.toLowerCase().includes('miscellaneous')
-  );
+  // Strategy 1: Simple pattern - just find "Miscellaneous" followed by a number
+  let miscellaneousMatch = totalsPageText.match(/Miscellaneous\s*\$?\s*([\d,]+\.?\d*)/i);
   
-  if (miscellaneousLines.length > 0) {
-    const miscellaneousLine = miscellaneousLines[0];
-    console.log('🔍 Miscellaneous LINE:', miscellaneousLine);
-    
-    // Look for the rightmost number in the line (should be the Cost column)
-    const numbersInLine = miscellaneousLine.match(/[\d,]+\.?\d*/g);
-    if (numbersInLine && numbersInLine.length > 0) {
-      // Take the last number (rightmost - should be the cost)
-      const costNumber = numbersInLine[numbersInLine.length - 1];
-      miscellaneousMatch = [null, costNumber]; // Fake match array for compatibility
-      console.log('🔍 Miscellaneous ALL NUMBERS:', numbersInLine);
-      console.log('🔍 Miscellaneous SELECTED (rightmost):', costNumber);
-    }
-  }
-  
-  // Fallback to original patterns if line-based approach fails
-  if (!miscellaneousMatch) {
-    miscellaneousMatch = totalsPageText.match(/Miscellaneous\s*\$?\s*([\d,]+\.?\d*)/i);
-  }
-  
-  if (miscellaneousMatch && miscellaneousMatch[1]) {
-    console.log('🔍 Miscellaneous FULL MATCH:', miscellaneousMatch[0] || 'Line-based match');
+  if (miscellaneousMatch) {
+    console.log('🔍 Miscellaneous SIMPLE MATCH:', miscellaneousMatch[0]);
     console.log('🔍 Miscellaneous EXTRACTED NUMBER:', miscellaneousMatch[1]);
     data.totals.miscellaneous = normalizeCurrency(parseFloat(miscellaneousMatch[1].replace(/,/g, '')));
     console.log('🔍 Miscellaneous FINAL VALUE:', data.totals.miscellaneous);
   } else {
-    console.log('🔍 Miscellaneous not found');
+    // Strategy 2: Find the line with "Miscellaneous" and extract any number from it
+    const miscellaneousLines = totalsPageText.split('\n').filter(line => 
+      line.toLowerCase().includes('miscellaneous')
+    );
+    
+    if (miscellaneousLines.length > 0) {
+      const miscellaneousLine = miscellaneousLines[0];
+      console.log('🔍 Miscellaneous LINE:', miscellaneousLine);
+      
+      // Extract any number from the line (since user says there's only one)
+      const numberMatch = miscellaneousLine.match(/([\d,]+\.?\d*)/);
+      if (numberMatch) {
+        console.log('🔍 Miscellaneous LINE NUMBER:', numberMatch[1]);
+        data.totals.miscellaneous = normalizeCurrency(parseFloat(numberMatch[1].replace(/,/g, '')));
+        console.log('🔍 Miscellaneous FINAL VALUE:', data.totals.miscellaneous);
+      } else {
+        console.log('🔍 Miscellaneous: No number found in line');
+      }
+    } else {
+      console.log('🔍 Miscellaneous: No line containing "miscellaneous" found');
+    }
   }
   
   // Other Charges - Business Rule: Always $4.00 if present, $0 if not present
